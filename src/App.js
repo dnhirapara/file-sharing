@@ -1,18 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import Home from './components/Home'
-import FileList from './components/FileList';
-import NotFound404 from './components/NotFound404';
+import logo from "./logo.svg";
+import "./App.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Home from "./components/Home";
+import FileList from "./components/FileList";
+import NotFound404 from "./components/NotFound404";
+import Nav from "./components/Nav";
 
 function App() {
   return (
     <div className="App">
+      <Nav></Nav>
       <Router>
         <Switch>
           <Route exact path="/">
