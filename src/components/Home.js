@@ -75,15 +75,12 @@ function Home() {
 
   const handleSubmit = async (e) => {
     setLoadings(true);
-    console.log("Submit Form Clicked");
     e.preventDefault();
     const formData = new FormData();
     for (var j = 0; j < files.length; j++) {
       formData.append("files", files[j]);
     }
     formData.append("email", email);
-    formData.forEach((data) => console.log(data));
-    console.log(formData.get("email"));
     var config = {
       headers: {
         "content-type": "multipart/form-data",
@@ -100,11 +97,9 @@ function Home() {
           90000
         );
         setLoadings(false);
-        console.log(success);
       })
       .catch((error) => {
         doAlert("error", error.message);
-        console.log(error);
         setLoadings(false);
       });
   };
@@ -113,16 +108,13 @@ function Home() {
       /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
     );
     if (!pattern.test(e.target.value)) {
-      console.log("Email Not Valid.");
       setValidateEmail({ ok: false, error: "Email Is Not Valid." });
     } else {
       setValidateEmail({ ok: true, error: "" });
     }
     await setEmail(e.target.value);
-    console.log(email);
   };
   const handleFiles = async (e) => {
-    console.log(e.target.files);
     var data = [...files];
     for (var i = 0; i < e.target.files.length; i++) {
       if (
@@ -137,16 +129,9 @@ function Home() {
       //   data.push(e.target.files[i]);
     }
     await setFiles(data);
-    console.log("Files Start");
-    console.log(files);
-    console.log("Files End");
   };
   const handleDelete = async (e, key) => {
-    console.log(e.target.value);
-    console.log(e.currentTarget.value);
-    console.log(key);
     const targetInedex = key;
-    console.log(targetInedex);
     var data = files.filter((file, index) => {
       return index != targetInedex;
     });

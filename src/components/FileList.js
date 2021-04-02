@@ -66,16 +66,13 @@ function FileList() {
       .get("https://localhost:44319/api/FileUpload/?key=" + id)
       .then((success) => {
         setFiles(success.data);
-        // console.log(JSON.stringify(success));
       })
       .catch((error) => {
         history.push("/error");
-        // console.log(JSON.stringify(error));
       });
   }, [setFiles]);
 
   const handleDonwload = async (key, filename) => {
-    console.log(key);
     const config = {
       responseType: "blob",
     };
@@ -89,11 +86,8 @@ function FileList() {
         document.body.appendChild(link);
         link.click();
         link.remove();
-        console.log(success);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const getFileSize = (size) => {
