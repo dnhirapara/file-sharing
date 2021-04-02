@@ -17,6 +17,7 @@ import Collapse from "@material-ui/core/Collapse";
 import CloseIcon from "@material-ui/icons/Close";
 import List from "@material-ui/core/List";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
 import ListItem from "@material-ui/core/ListItem";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Fab } from "@material-ui/core";
@@ -24,6 +25,8 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import { positions, zIndex } from "@material-ui/system";
+import Loader from "./Loader";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,7 +43,7 @@ function Home() {
   const classes = useStyles();
   var [email, setEmail] = useState("");
   const [dense, setDense] = React.useState(false);
-  var [loading, setLoading] = useState(false);
+  var [loading, setLoadings] = useState(false);
   var [files, setFiles] = useState([]);
   var [validateEmail, setValidateEmail] = useState({ ok: true, error: "" });
   var [alert, setAlert] = useState({
@@ -59,8 +62,18 @@ function Home() {
     setIsAlert(false);
   };
 
+  const getFileSize = (size) => {
+    if (size > 1000 * 1000 * 1000) {
+      return (size / (1000 * 1000 * 1000)).toFixed(2) + " GB";
+    } else if (size > 1000 * 1000) {
+      return (size / (1000 * 1000)).toFixed(2) + " MB";
+    } else if (size > 1000) {
+      return (size / 1000).toFixed(2) + " KB";
+    }
+  };
+
   const handleSubmit = async (e) => {
-    await setLoading(true);
+    setLoadings(true);
     console.log("Submit Form Clicked");
     e.preventDefault();
     const formData = new FormData();
@@ -75,7 +88,7 @@ function Home() {
         "content-type": "multipart/form-data",
       },
     };
-    axios
+    await axios
       .post("https://localhost:44319/api/FileUpload/", formData, config)
       .then((success) => {
         setFiles([]);
@@ -85,13 +98,14 @@ function Home() {
           "File Uploaded Successfully. We Sent You Download Link On Provided E-Mail Address.",
           90000
         );
+        setLoadings(false);
         console.log(success);
       })
       .catch((error) => {
         doAlert("error", error.message);
         console.log(error);
+        setLoadings(false);
       });
-    await setLoading(false);
   };
   const handleEmail = async (e) => {
     var pattern = new RegExp(
@@ -174,6 +188,7 @@ function Home() {
                     error={!validateEmail.ok}
                     helperText={validateEmail.error}
                     required
+                    disabled={loading}
                   />
                 </Grid>
               </Grid>
@@ -201,6 +216,7 @@ function Home() {
                   disabled={loading}
                 ></input>
                 <Fab
+                  disabled={loading}
                   color="primary"
                   aria-label="add"
                   onClick={() => {
@@ -213,36 +229,37 @@ function Home() {
                 Add Files
               </label>
               {Array.from(files).map((file, key) => (
-                <List dense={dense} key={key}>
-                  <ListItemText
-                    primary={
-                      <Typography nowrap={true}>{file.name} </Typography>
-                    }
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={(e) => handleDelete(e, key)}
-                      value={key}
-                      disabled={loading}
-                    >
-                      {/* <DeleteIcon onClick={(e) => handleDelete(e, key)} value={key} /> */}
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
+                <List key={key}>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <Typography nowrap={true}>{file.name} </Typography>
+                      }
+                      secondary={getFileSize(file.size)}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        onClick={(e) => handleDelete(e, key)}
+                        value={key}
+                        disabled={loading}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
                 </List>
               ))}
               <br></br>
-
+              {loading ? <Loader /> : null}
               <Button
                 type="submit"
                 variant="contained"
                 color="primary"
                 disabled={loading}
               >
-                Upload
-                {loading ? <CircularProgress color="secondary" /> : null}
+                {loading ? "Uploading Files..." : "Upload"}
               </Button>
             </Paper>
           </form>
