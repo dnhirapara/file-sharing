@@ -1,13 +1,10 @@
 import React from "react";
 import "./NotFound404.css";
 
-function NotFound404() {
+function NotFound404(props) {
   return (
     <div>
-      {/* <h1>404 Error Page #2</h1>
-      <p className="zoom-area">
-        <b>CSS</b> animations to make a cool 404 page.{" "}
-      </p> */}
+      {props.message ? <h1>{props.message} Not Found</h1> : null}
       <section className="error-container">
         <span className="four">
           <span className="screen-reader-text">4</span>

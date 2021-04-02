@@ -7,6 +7,7 @@ import {
   useParams,
 } from "react-router-dom";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FileList() {
+  const history = useHistory();
   const classes = useStyles();
   let { id } = useParams();
   const [files, setFiles] = useState([]);
@@ -64,10 +66,11 @@ function FileList() {
       .get("https://localhost:44319/api/FileUpload/?key=" + id)
       .then((success) => {
         setFiles(success.data);
-        console.log(JSON.stringify(success));
+        // console.log(JSON.stringify(success));
       })
       .catch((error) => {
-        console.log(JSON.stringify(error));
+        history.push("/error");
+        // console.log(JSON.stringify(error));
       });
   }, [setFiles]);
 

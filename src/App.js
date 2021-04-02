@@ -18,6 +18,9 @@ function App() {
           <Route exact path="/files/:id">
             <FileList />
           </Route>
+          <Route path="/error">
+            <NotFound404 />
+          </Route>
           <Route path="*">
             <NotFound404 />
           </Route>
