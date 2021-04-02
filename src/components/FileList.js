@@ -1,43 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom";
-import axios from "axios";
-import { useHistory } from "react-router-dom";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
-import Alert from "@material-ui/lab/Alert";
-import AddIcon from "@material-ui/icons/Add";
-import TextField from "@material-ui/core/TextField";
-import Icon from "@material-ui/core/Icon";
-import { FormControl } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
-import { Paper, Grid, FormGroup } from "@material-ui/core";
-import Collapse from "@material-ui/core/Collapse";
-import CloseIcon from "@material-ui/icons/Close";
-import List from "@material-ui/core/List";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FolderIcon from "@material-ui/icons/Folder";
-import ListItem from "@material-ui/core/ListItem";
+import { Paper } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
-import ImageIcon from "@material-ui/icons/Image";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import { Fab } from "@material-ui/core";
+import { deepOrange } from "@material-ui/core/colors";
+import Container from "@material-ui/core/Container";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import { makeStyles } from "@material-ui/core/styles";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-import { deepOrange, deepPurple } from "@material-ui/core/colors";
-const Fs = require("fs");
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,7 +42,7 @@ function FileList() {
       .then((success) => {
         setFiles(success.data);
       })
-      .catch((error) => {
+      .catch(() => {
         history.push("/error");
       });
   }, [setFiles]);
@@ -87,7 +62,7 @@ function FileList() {
         link.click();
         link.remove();
       })
-      .catch((error) => {});
+      .catch(() => {});
   };
 
   const getFileSize = (size) => {
@@ -120,7 +95,7 @@ function FileList() {
                     <IconButton
                       edge="end"
                       aria-label="delete"
-                      onClick={(e) => handleDonwload(file.Path, file.FileName)}
+                      onClick={() => handleDonwload(file.Path, file.FileName)}
                     >
                       <CloudDownloadIcon />
                     </IconButton>
