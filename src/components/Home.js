@@ -75,7 +75,11 @@ function Home() {
       },
     };
     await axios
-      .post("https://localhost:44319/api/FileUpload/", formData, config)
+      .post(
+        "https://fileupload20210404193847.azurewebsites.net/api/FileUpload/",
+        formData,
+        config
+      )
       .then((success) => {
         setFiles([]);
         setEmail("");

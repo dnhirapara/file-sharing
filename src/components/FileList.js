@@ -38,7 +38,10 @@ function FileList() {
   const [files, setFiles] = useState([]);
   useEffect(async () => {
     await axios
-      .get("https://localhost:44319/api/FileUpload/?key=" + id)
+      .get(
+        "https://fileupload20210404193847.azurewebsites.net/api/FileUpload/?key=" +
+          id
+      )
       .then((success) => {
         setFiles(success.data);
       })
