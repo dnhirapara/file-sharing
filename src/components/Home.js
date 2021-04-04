@@ -13,9 +13,9 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Alert from "@material-ui/lab/Alert";
-import axios from "axios";
 import React, { useState } from "react";
 import Loader from "./Loader";
+import axios from "../http-common";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -75,11 +75,7 @@ function Home() {
       },
     };
     await axios
-      .post(
-        "https://fileupload20210404193847.azurewebsites.net/api/FileUpload/",
-        formData,
-        config
-      )
+      .post("/api/FileUpload/", formData, config)
       .then((success) => {
         setFiles([]);
         setEmail("");

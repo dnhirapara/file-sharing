@@ -10,7 +10,7 @@ import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import CloudDownloadIcon from "@material-ui/icons/CloudDownload";
-import axios from "axios";
+import axios from "../http-common";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -38,10 +38,7 @@ function FileList() {
   const [files, setFiles] = useState([]);
   useEffect(async () => {
     await axios
-      .get(
-        "https://fileupload20210404193847.azurewebsites.net/api/FileUpload/?key=" +
-          id
-      )
+      .get("/api/FileUpload/?key=" + id)
       .then((success) => {
         setFiles(success.data);
       })
