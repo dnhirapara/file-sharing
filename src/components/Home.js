@@ -40,7 +40,7 @@ function Home() {
     message: "Welcome To File Upload",
   });
   var [isAlert, setIsAlert] = useState(false);
-  const doAlert = (type, message, time = 2500) => {
+  const doAlert = (type, message, time = 6500) => {
     setTimeout(() => {
       handleAlertClose();
     }, time);
