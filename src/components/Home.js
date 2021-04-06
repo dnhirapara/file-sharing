@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 function Home() {
   const classes = useStyles();
   var [email, setEmail] = useState("");
-  const [dense, setDense] = React.useState(false);
   var [loading, setLoadings] = useState(false);
   var [files, setFiles] = useState([]);
   var [validateEmail, setValidateEmail] = useState({ ok: true, error: "" });
@@ -104,24 +103,27 @@ function Home() {
   };
   const handleFiles = async (e) => {
     var data = [...files];
-    for (var i = 0; i < e.target.files.length; i++) {
+    for (var valueInd = 0; valueInd < e.target.files.length; valueInd++) {
       if (
         data.filter((file) => {
-          return file.name === e.target.files[i].name;
-        }).length == 0
+          return file.name === e.target.files[valueInd].name;
+        }).length === 0
       ) {
-        data = [...data, e.target.files[i]];
+        data = [...data, e.target.files[valueInd]];
       } else {
-        doAlert("warning", e.target.files[i].name + " File Already Exists");
+        doAlert(
+          "warning",
+          e.target.files[valueInd].name + " File Already Exists"
+        );
       }
-      //   data.push(e.target.files[i]);
+      //   data.push(e.target.files[valueInd]);
     }
     await setFiles(data);
   };
   const handleDelete = async (e, key) => {
     const targetInedex = key;
     var data = files.filter((file, index) => {
-      return index != targetInedex;
+      return index !== targetInedex;
     });
     await setFiles(data);
   };
