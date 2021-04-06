@@ -36,15 +36,18 @@ function FileList() {
   const classes = useStyles();
   let { id } = useParams();
   const [files, setFiles] = useState([]);
-  useEffect(async () => {
-    await axios
-      .get("/api/FileUpload/?key=" + id)
-      .then((success) => {
-        setFiles(success.data);
-      })
-      .catch(() => {
-        history.push("/error");
-      });
+  useEffect(() => {
+    const fun = async () => {
+      await axios
+        .get("/api/FileUpload/?key=" + id)
+        .then((success) => {
+          setFiles(success.data);
+        })
+        .catch(() => {
+          history.push("/error");
+        });
+    };
+    fun();
   }, [setFiles]);
 
   const handleDonwload = async (key, filename) => {
@@ -52,7 +55,7 @@ function FileList() {
       responseType: "blob",
     };
     await axios
-      .get("https://localhost:44319/api/FileUpload/?fileKey=" + key, config)
+      .get("/api/FileUpload/?fileKey=" + key, config)
       .then((success) => {
         const url = window.URL.createObjectURL(new Blob([success.data]));
         const link = document.createElement("a");
