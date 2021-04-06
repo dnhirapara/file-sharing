@@ -109,7 +109,14 @@ function Home() {
           return file.name === e.target.files[valueInd].name;
         }).length === 0
       ) {
-        data = [...data, e.target.files[valueInd]];
+        if (e.target.files[valueInd].size < 1000 * 200) {
+          data = [...data, e.target.files[valueInd]];
+        } else {
+          doAlert(
+            "Warning",
+            "Free Account Only Allows Maximum File size up to 200 MB."
+          );
+        }
       } else {
         doAlert(
           "warning",

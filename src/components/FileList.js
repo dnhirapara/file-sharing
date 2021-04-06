@@ -48,7 +48,7 @@ function FileList() {
         });
     };
     fun();
-  }, [setFiles]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDonwload = async (key, filename) => {
     const config = {
