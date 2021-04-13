@@ -109,7 +109,7 @@ function Home() {
           return file.name === e.target.files[valueInd].name;
         }).length === 0
       ) {
-        if (e.target.files[valueInd].size < 1000 * 200) {
+        if (e.target.files[valueInd].size < 1000 * 1000 * 200) {
           data = [...data, e.target.files[valueInd]];
         } else {
           doAlert(
